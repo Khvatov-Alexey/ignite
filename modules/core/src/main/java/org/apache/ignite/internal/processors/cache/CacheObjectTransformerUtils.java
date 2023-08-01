@@ -57,7 +57,7 @@ public class CacheObjectTransformerUtils {
             return bytes;
 
         ByteBuffer src = ByteBuffer.wrap(bytes, offset, length);
-        ByteBuffer transformed = transformer.transform(src);
+        ByteBuffer transformed = transformer.transform(ctx, src);
 
         if (transformed != null) {
             assert transformed.remaining() > 0 : transformed.remaining();
@@ -120,7 +120,7 @@ public class CacheObjectTransformerUtils {
         CacheObjectTransformerManager transformer = transformer(ctx);
 
         ByteBuffer src = ByteBuffer.wrap(bytes, 1, bytes.length - 1); // Skipping TRANSFORMED.
-        ByteBuffer restored = transformer.restore(src);
+        ByteBuffer restored = transformer.restore(ctx, src);
 
         byte[] res = toArray(restored);
 

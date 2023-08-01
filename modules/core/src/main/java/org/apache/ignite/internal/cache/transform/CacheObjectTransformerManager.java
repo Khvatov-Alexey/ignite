@@ -19,6 +19,7 @@ package org.apache.ignite.internal.cache.transform;
 
 import java.nio.ByteBuffer;
 import org.apache.ignite.internal.binary.GridBinaryMarshaller;
+import org.apache.ignite.internal.processors.cache.CacheObjectValueContext;
 import org.apache.ignite.internal.processors.cache.GridCacheSharedManager;
 import org.jetbrains.annotations.Nullable;
 
@@ -29,17 +30,21 @@ public interface CacheObjectTransformerManager extends GridCacheSharedManager {
     /**
      * Transforms the data.
      *
+     * @param ctx Cache object context.
+     *
      * @param original Original data.
      * @return Transformed data (started with {@link GridBinaryMarshaller#TRANSFORMED} when restorable)
      * or {@code null} when transformation is not possible/suitable.
      */
-    public @Nullable ByteBuffer transform(ByteBuffer original);
+    @Nullable ByteBuffer transform(CacheObjectValueContext ctx, ByteBuffer original);
 
     /**
      * Restores the data.
      *
+     * @param ctx Cache object context.
+     *
      * @param transformed Transformed data.
      * @return Restored data.
      */
-    public ByteBuffer restore(ByteBuffer transformed);
+    ByteBuffer restore(CacheObjectValueContext ctx, ByteBuffer transformed);
 }
