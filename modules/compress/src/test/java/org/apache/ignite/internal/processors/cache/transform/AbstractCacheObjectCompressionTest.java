@@ -27,6 +27,7 @@ import net.jpountz.lz4.LZ4FastDecompressor;
 import org.apache.ignite.IgniteException;
 import org.apache.ignite.configuration.IgniteConfiguration;
 import org.apache.ignite.internal.ThreadLocalDirectByteBuffer;
+import org.apache.ignite.internal.processors.cache.CacheObjectValueContext;
 import org.xerial.snappy.Snappy;
 
 import static org.apache.ignite.internal.binary.GridBinaryMarshaller.TRANSFORMED;
@@ -109,7 +110,7 @@ public abstract class AbstractCacheObjectCompressionTest extends AbstractCacheOb
         private final ThreadLocalDirectByteBuffer dst = new ThreadLocalDirectByteBuffer();
 
         /** {@inheritDoc} */
-        @Override public ByteBuffer transform(ByteBuffer original) {
+        @Override public ByteBuffer transform(CacheObjectValueContext ctx, ByteBuffer original) {
             if (type == CompressionType.DISABLED)
                 return null;
 
@@ -195,7 +196,7 @@ public abstract class AbstractCacheObjectCompressionTest extends AbstractCacheOb
         }
 
         /** {@inheritDoc} */
-        @Override public ByteBuffer restore(ByteBuffer transformed) {
+        @Override public ByteBuffer restore(CacheObjectValueContext ctx, ByteBuffer transformed) {
             CompressionType type = CompressionType.values()[transformed.getInt()];
             int length = transformed.getInt();
 
