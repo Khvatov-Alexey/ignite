@@ -1,0 +1,30 @@
+package org.apache.ignite.internal.binary.compress;
+
+import org.jetbrains.annotations.NotNull;
+import org.xerial.snappy.Snappy;
+
+import java.io.IOException;
+import java.nio.ByteBuffer;
+
+public class SnappyBinaryCompressor implements Compressor {
+  @Override
+  public void compress(@NotNull ByteBuffer src, @NotNull ByteBuffer dest) throws IOException {
+    assert src != null : "Source buffer is null";
+    assert dest != null : "Destinantion buffer is null";
+
+    Snappy.compress(src, dest);
+  }
+
+  @Override
+  public void decompress(@NotNull ByteBuffer src, @NotNull ByteBuffer dest) throws IOException {
+    assert src != null : "Source buffer is null";
+    assert dest != null : "Destinantion buffer is null";
+
+    Snappy.uncompress(src, dest);
+  }
+
+  @Override
+  public int maxCompressedLength(int origSize) {
+     return Snappy.maxCompressedLength(origSize);
+  }
+}
