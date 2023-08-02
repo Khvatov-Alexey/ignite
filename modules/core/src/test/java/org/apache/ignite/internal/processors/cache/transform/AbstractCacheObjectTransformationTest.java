@@ -34,6 +34,7 @@ import org.apache.ignite.configuration.IgniteConfiguration;
 import org.apache.ignite.events.CacheObjectTransformedEvent;
 import org.apache.ignite.events.EventType;
 import org.apache.ignite.internal.processors.cache.CacheObjectContext;
+import org.apache.ignite.internal.processors.cache.CacheObjectValueContext;
 import org.apache.ignite.internal.processors.cache.IgniteCacheProxy;
 import org.apache.ignite.internal.util.typedef.G;
 import org.apache.ignite.testframework.junits.common.GridCommonAbstractTest;
@@ -302,7 +303,7 @@ public abstract class AbstractCacheObjectTransformationTest extends GridCommonAb
         }
 
         /** {@inheritDoc} */
-        @Override public ByteBuffer transform(ByteBuffer original) {
+        @Override public ByteBuffer transform(CacheObjectValueContext ctx, ByteBuffer original) {
             if (failOnTransformation())
                 return null;
 
@@ -322,7 +323,7 @@ public abstract class AbstractCacheObjectTransformationTest extends GridCommonAb
         }
 
         /** {@inheritDoc} */
-        @Override public ByteBuffer restore(ByteBuffer transformed) {
+        @Override public ByteBuffer restore(CacheObjectValueContext ctx, ByteBuffer transformed) {
             ByteBuffer restored = ByteBuffer.wrap(new byte[transformed.remaining() - 4]);
 
             int origShift = transformed.getInt();
