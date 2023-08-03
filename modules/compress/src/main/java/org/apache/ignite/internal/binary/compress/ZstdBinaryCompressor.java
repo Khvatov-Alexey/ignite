@@ -3,6 +3,7 @@ package org.apache.ignite.internal.binary.compress;
 import com.github.luben.zstd.Zstd;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.nio.ByteBuffer;
 
 public class ZstdBinaryCompressor implements Compressor {
@@ -18,6 +19,16 @@ public class ZstdBinaryCompressor implements Compressor {
     assert dest != null : "Destinantion buffer is null";
 
     Zstd.compressDirectByteBuffer(dest, 0, dest.limit(), src, 0, src.position(), level);
+  }
+
+  @Override
+  public int compress(ByteBuffer src, ByteBuffer dest, int destOff, int maxDestLen) throws IOException {
+    assert src != null : "Source buffer is null";
+    assert dest != null : "Destinantion buffer is null";
+    assert destOff < dest.capacity() : "Destination offset more than buffer capacity";
+    assert maxDestLen + destOff < dest.capacity() : "Destination offset and length more than buffer capacity";
+
+    return (int) Zstd.compressDirectByteBuffer(dest, destOff, maxDestLen, src, 0, src.position(), level);
   }
 
   @Override

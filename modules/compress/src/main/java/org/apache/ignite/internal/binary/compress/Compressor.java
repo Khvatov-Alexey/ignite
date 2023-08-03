@@ -6,6 +6,8 @@ import java.nio.ByteBuffer;
 public interface Compressor {
   void compress(ByteBuffer src, ByteBuffer dest) throws IOException;
 
+  int compress(ByteBuffer src, ByteBuffer dest, int destOff, int maxDestLen) throws IOException;
+
   void decompress(ByteBuffer src, ByteBuffer dest) throws IOException;
 
   int maxCompressedLength(int origSize);
