@@ -114,7 +114,7 @@ public class CacheObjectTransformerUtils {
      * @return Restored bytes.
      */
     public static byte[] restoreIfNecessary(byte[] bytes, CacheObjectValueContext ctx) {
-        if (bytes[0] != TRANSFORMED)
+        if (bytes.length == 0 || bytes[0] != TRANSFORMED)
             return bytes;
 
         CacheObjectTransformerManager transformer = transformer(ctx);
