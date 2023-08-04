@@ -26,7 +26,7 @@ public class ZstdBinaryCompressor implements Compressor {
     assert src != null : "Source buffer is null";
     assert dest != null : "Destinantion buffer is null";
     assert destOff < dest.capacity() : "Destination offset more than buffer capacity";
-    assert maxDestLen + destOff < dest.capacity() : "Destination offset and length more than buffer capacity";
+    assert maxDestLen + destOff <= dest.capacity() : "Destination offset and length more than buffer capacity";
 
     return (int) Zstd.compressDirectByteBuffer(dest, destOff, maxDestLen, src, 0, src.position(), level);
   }
