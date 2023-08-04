@@ -140,7 +140,7 @@ public class CacheObjectTransformerUtils {
     /**
      * @param buf Buffer.
      */
-    private static byte[] toArray(ByteBuffer buf) {
+    public static byte[] toArray(ByteBuffer buf) {
         if (buf.isDirect()) {
             byte[] res = new byte[buf.remaining()];
 
