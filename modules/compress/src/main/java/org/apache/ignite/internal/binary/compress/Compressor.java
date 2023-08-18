@@ -8,7 +8,7 @@ public interface Compressor {
 
   int compress(ByteBuffer src, ByteBuffer dest, int destOff, int maxDestLen) throws IOException;
 
-  void decompress(ByteBuffer src, ByteBuffer dest) throws IOException;
+  int decompress(ByteBuffer src, ByteBuffer dest) throws IOException;
 
   int maxCompressedLength(int origSize);
 }

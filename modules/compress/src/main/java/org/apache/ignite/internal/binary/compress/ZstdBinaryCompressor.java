@@ -28,19 +28,21 @@ public class ZstdBinaryCompressor implements Compressor {
     assert destOff < dest.capacity() : "Destination offset more than buffer capacity";
     assert maxDestLen + destOff <= dest.capacity() : "Destination offset and length more than buffer capacity";
 
-    return (int) Zstd.compressDirectByteBuffer(dest, destOff, maxDestLen, src, 0, src.position(), level);
+    long size = Zstd.compressDirectByteBuffer(dest, destOff, maxDestLen, src, src.position(), src.remaining(), level);
+    return size <= Integer.MAX_VALUE ? (int) size : -1;
   }
 
   @Override
-  public void decompress(@NotNull ByteBuffer src, @NotNull ByteBuffer dest) {
+  public int decompress(@NotNull ByteBuffer src, @NotNull ByteBuffer dest) {
     assert src != null : "Source buffer is null";
     assert dest != null : "Destinantion buffer is null";
 
-    Zstd.decompressDirectByteBuffer(dest, 0, dest.limit(), src, 0, src.position());
+    return (int) Zstd.decompressDirectByteBuffer(dest, 0, dest.limit(), src, src.position(), src.remaining());
   }
 
   @Override
   public int maxCompressedLength(int origSize) {
-    return (int)Zstd.compressBound(origSize);
+    long maxDstSize = Zstd.compressBound(origSize);
+    return maxDstSize <= Integer.MAX_VALUE ? (int) maxDstSize : -1;
   }
 }

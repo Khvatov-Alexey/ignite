@@ -41,11 +41,12 @@ public class LZ4BinaryCompressor implements Compressor {
   }
 
   @Override
-  public void decompress(@NotNull ByteBuffer src, @NotNull ByteBuffer dest) {
+  public int decompress(@NotNull ByteBuffer src, @NotNull ByteBuffer dest) {
     assert src != null : "Source buffer is null";
     assert dest != null : "Destinantion buffer is null";
 
     decompressor.decompress(src, dest);
+    return dest.position();
   }
 
   @Override

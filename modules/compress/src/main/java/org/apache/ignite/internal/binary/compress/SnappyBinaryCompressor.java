@@ -21,11 +21,11 @@ public class SnappyBinaryCompressor implements Compressor {
   }
 
   @Override
-  public void decompress(@NotNull ByteBuffer src, @NotNull ByteBuffer dest) throws IOException {
+  public int decompress(@NotNull ByteBuffer src, @NotNull ByteBuffer dest) throws IOException {
     assert src != null : "Source buffer is null";
     assert dest != null : "Destinantion buffer is null";
 
-    Snappy.uncompress(src, dest);
+    return Snappy.uncompress(src, dest);
   }
 
   @Override
